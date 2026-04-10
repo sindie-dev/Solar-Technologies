@@ -1,318 +1,457 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sun Technologies Solar | Professional Renewable Energy</title>
-    <!-- Lucide Icons for Service Highlights -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gold: #FFD700; /* Sunbeam Yellow */
-            --secondary-dark: #1A252F; /* Deep Slate/Tech Gray */
-            --accent-blue: #3498DB;
-            --light-bg: #F9FAFB;
-            --white: #ffffff;
+            --gold: #F5C400;
+            --gold-light: #FFD93D;
+            --dark: #111820;
+            --dark-2: #1A252F;
+            --cream: #F9F7F2;
         }
+        * { box-sizing: border-box; }
+        body { font-family: 'DM Sans', system-ui, sans-serif; color: var(--dark); background: #fff; }
+        h1,h2,h3,h4,h5,.syne { font-family: 'Syne', sans-serif; }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; color: var(--secondary-dark); line-height: 1.6; background-color: var(--white); }
-        
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.2rem 8%;
-            background: var(--secondary-dark);
-            color: white;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
-        .logo span { color: var(--primary-gold); }
-        .nav-links a { color: white; text-decoration: none; margin-left: 25px; font-size: 0.9rem; font-weight: 500; transition: 0.3s; }
-        .nav-links a:hover { color: var(--primary-gold); }
+        /* ── Ticker ── */
+        @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .ticker-track { animation: ticker 30s linear infinite; }
 
-        /* Hero Section */
-        .hero {
-            position: relative;
-            height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1352&q=80');
-            background-size: cover;
-            background-position: center;
-            padding: 0 20px;
-        }
-        .hero-content h1 { font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 15px; line-height: 1.1; }
-        .hero-content p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 30px; opacity: 0.9; }
-        
-        .cta-group { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 15px 35px; border-radius: 8px; text-decoration: none; font-weight: 700; transition: 0.3s; transform: perspective(1px) translateZ(0); }
-        .btn-primary { background: var(--primary-gold); color: var(--secondary-dark); }
-        .btn-secondary { border: 2px solid var(--white); color: var(--white); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        /* ── Fade up ── */
+        @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+        .fade-up { animation: fadeUp .55s ease-out forwards; }
 
-        /* About & Mission */
-        .section { padding: 80px 10%; }
-        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
-        .mission-box { background: var(--light-bg); padding: 40px; border-left: 5px solid var(--primary-gold); border-radius: 0 12px 12px 0; }
-        
-        /* Services Section */
-        .services-bg { background: var(--light-bg); text-align: center; }
-        .section-header { margin-bottom: 50px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
-        .service-card { 
-            background: white; 
-            padding: 40px 30px; 
-            border-radius: 20px; 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1); 
-            transition: all 0.4s ease; 
-            position: relative; 
-            overflow: hidden; 
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.1), transparent);
-            transition: left 0.5s;
-        }
-        .service-card:hover::before { left: 100%; }
-        .service-card:hover { 
-            transform: translateY(-15px) scale(1.05); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15); 
-        }
-        .icon-box { 
-            color: var(--primary-gold); 
-            margin-bottom: 20px; 
-            font-size: 3rem; 
-            transition: 0.3s; 
-        }
-        .service-card:hover .icon-box { transform: scale(1.2); }
+        /* ── Proof card glow ── */
+        .proof-card { transition: transform .3s ease, box-shadow .3s ease; }
+        .proof-card:hover { transform: translateY(-4px); }
 
-        /* Gallery */
-        .gallery-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 10px; 
-            position: relative; 
-        }
-        .gallery-item { 
-            background: #ddd; 
-            border-radius: 10px; 
-            overflow: hidden; 
-            position: relative; 
-            cursor: pointer; 
-            transition: all 0.8s ease; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            height: 300px;
-        }
-        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-        .gallery-item:nth-child(2) { grid-column: span 1; grid-row: span 1; }
-        .gallery-item:nth-child(3) { grid-column: span 1; grid-row: span 1; }
-        .gallery-item:nth-child(4) { grid-column: span 1; grid-row: span 2; }
-        .gallery-item:nth-child(5) { grid-column: span 1; grid-row: span 1; }
-        .gallery-item:nth-child(6) { grid-column: span 2; grid-row: span 1; }
-        .gallery-item:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-        }
-        .gallery-item img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            filter: grayscale(20%) brightness(0.9); 
-            transition: all 0.5s ease; 
-        }
-        .gallery-item:hover img { 
-            filter: grayscale(0%) brightness(1.1) saturate(1.2); 
-            transform: scale(1.1); 
-        }
-        .gallery-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255,215,0,0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .gallery-item:hover::after { opacity: 1; }
+        /* ── Gallery ── */
+        .gallery-item { overflow: hidden; border-radius: 16px; position: relative; cursor: pointer; }
+        .gallery-item img { width:100%; height:100%; object-fit:cover; transition: transform .7s cubic-bezier(.25,.46,.45,.94), filter .5s ease; filter: brightness(.9) saturate(.85); }
+        .gallery-item:hover img { transform: scale(1.07); filter: brightness(1.05) saturate(1.2); }
+        .gallery-caption { position:absolute; bottom:0; left:0; right:0; padding:20px; background:linear-gradient(to top, rgba(0,0,0,.65), transparent); opacity:0; transform:translateY(6px); transition: opacity .35s ease, transform .35s ease; }
+        .gallery-item:hover .gallery-caption { opacity:1; transform:translateY(0); }
 
-        /* Contact Section */
-        .contact-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
-        .contact-info h2 { margin-bottom: 20px; }
-        .info-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .contact-form { display: flex; flex-direction: column; gap: 15px; }
-        .contact-form input, .contact-form textarea { padding: 15px; border: 1px solid #ddd; border-radius: 8px; width: 100%; font-size: 1rem; }
-        .contact-form button { background: var(--secondary-dark); color: white; border: none; padding: 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* ── Service card ── */
+        .service-card { transition: transform .35s ease, box-shadow .35s ease; }
+        .service-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(0,0,0,.12); }
+        .service-card .shine { position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(245,196,0,.08),transparent);transform:translateX(-100%);transition:transform .6s ease; }
+        .service-card:hover .shine { transform:translateX(100%); }
 
-        /* Footer */
-        footer { background: var(--secondary-dark); color: white; padding: 60px 10% 20px; }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 40px; }
-        .footer-bottom { text-align: center; padding-top: 20px; font-size: 0.8rem; opacity: 0.6; }
+        /* ── Nav link hover bar ── */
+        .nav-link { position:relative; }
+        .nav-link::after { content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s ease; }
+        .nav-link:hover::after { width:100%; }
 
-        @media (max-width: 768px) {
-            .about-grid, .contact-container, .gallery-grid { grid-template-columns: 1fr; }
-            nav { padding: 1rem 5%; }
-            .nav-links { display: none; }
-        }
+        /* ── Scrollbar ── */
+        .no-scroll::-webkit-scrollbar { display:none; }
+        .no-scroll { -ms-overflow-style:none; scrollbar-width:none; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">SUN <span>TECHNOLOGIES</span></div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#services">Services</a>
-            <a href="#gallery">Projects</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+<!-- ════════════════════ NAV ════════════════════ -->
+<nav class="sticky top-0 z-50 flex items-center justify-between px-6 md:px-16 h-16 bg-[#111820]/95 backdrop-blur-md border-b border-white/5">
+    <div class="syne text-white text-xl font-extrabold tracking-widest uppercase">
+        SUN <span style="color:var(--gold)">TECHNOLOGIES</span>
+    </div>
+    <div class="hidden md:flex items-center gap-8">
+        <a href="#about"   class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a>
+        <a href="#services" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Services</a>
+        <a href="#gallery"  class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Projects</a>
+        <a href="#contact"  class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Contact</a>
+    </div>
+    <a href="#contact" class="syne h-9 px-5 rounded-full text-sm font-semibold transition-colors" style="background:var(--gold);color:var(--dark);">
+        Free Quote
+    </a>
+</nav>
 
-    <!-- HERO SECTION -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1>Sun Technologies Solar</h1>
-            <p>Your Professional Partner for Sustainable Energy in South Africa & India. Specializing in high-efficiency residential and commercial solar installations.</p>
-            <div class="cta-group">
-                <a href="#contact" class="btn btn-primary">Get a Free Quote</a>
-                <a href="#services" class="btn btn-secondary">Explore Solutions</a>
+<!-- ════════════════════ HERO ════════════════════ -->
+<header class="relative min-h-[88vh] flex items-center justify-center text-center text-white overflow-hidden">
+    <div class="absolute inset-0">
+        <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1352&q=80"
+             alt="Solar Installation" class="w-full h-full object-cover">
+        <div class="absolute inset-0" style="background:linear-gradient(to bottom, rgba(17,24,32,.72) 0%, rgba(17,24,32,.55) 50%, rgba(17,24,32,.85) 100%);"></div>
+        <!-- Gold ray effect -->
+        <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 50% 10%, rgba(245,196,0,.12) 0%, transparent 65%);"></div>
+    </div>
+
+    <!-- Deco vertical lines -->
+    <div class="absolute left-10 top-1/4 bottom-1/4 w-px hidden lg:block" style="background:linear-gradient(to bottom, transparent, rgba(245,196,0,.3), transparent);"></div>
+    <div class="absolute right-10 top-1/3 bottom-1/3 w-px hidden lg:block" style="background:linear-gradient(to bottom, transparent, rgba(245,196,0,.2), transparent);"></div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/15 bg-white/8 backdrop-blur-sm mb-10 text-xs font-medium text-gray-300 fade-up" style="animation-delay:.1s;opacity:0;font-family:'Syne',sans-serif;letter-spacing:.08em;">
+            <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
+            Serving South Africa &amp; India
+        </div>
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[1.0] mb-5 fade-up" style="animation-delay:.22s;opacity:0;">
+            Sun Technologies<br><span style="color:var(--gold)">Solar</span>
+        </h1>
+        <p class="text-base md:text-lg text-gray-300 max-w-xl mx-auto mb-10 font-light fade-up" style="animation-delay:.38s;opacity:0;">
+            Your professional partner for sustainable energy. High-efficiency residential &amp; commercial solar installations across South Africa and India.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center fade-up" style="animation-delay:.52s;opacity:0;">
+            <a href="#contact" class="syne h-12 px-8 rounded-full font-semibold text-sm transition-all hover:brightness-110 hover:-translate-y-0.5 inline-flex items-center justify-center" style="background:var(--gold);color:var(--dark);">Get a Free Quote</a>
+            <a href="#services" class="h-12 px-8 rounded-full font-medium text-sm border border-white/25 text-white hover:bg-white/8 transition-all inline-flex items-center justify-center">Explore Solutions</a>
+        </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+        <div class="w-px h-10" style="background:linear-gradient(to bottom, rgba(245,196,0,.6), transparent);"></div>
+    </div>
+</header>
+
+<!-- ════════════════════ TICKER ════════════════════ -->
+<div class="overflow-hidden border-y border-gray-100 py-4 bg-white">
+    <div class="flex ticker-track whitespace-nowrap">
+        <div class="flex items-center gap-10 pr-10 opacity-40">
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Residential Solar</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>Commercial Solar</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Hybrid Systems</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Load-Shedding Solutions</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Solar Water Pumping</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+        </div>
+        <div class="flex items-center gap-10 pr-10 opacity-40" aria-hidden="true">
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Residential Solar</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>Commercial Solar</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>Hybrid Systems</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Load-Shedding Solutions</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+            <span class="syne text-xs tracking-widest uppercase font-semibold flex items-center gap-2"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Solar Water Pumping</span>
+            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════ SOCIAL PROOF STRIP ════════════════════ -->
+<section class="py-16 px-6 md:px-16" style="background:var(--dark);">
+    <p class="syne text-xs tracking-widest uppercase text-gray-500 text-center mb-10">Why South Africa trusts Sun Technologies</p>
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Proof 1 -->
+        <div class="proof-card relative rounded-2xl p-8 border border-white/8 overflow-hidden" style="background:#1A252F;">
+            <div class="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" style="background:rgba(245,196,0,.06);"></div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.25);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F5C400" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <p class="syne text-xs tracking-widest uppercase mb-2 font-semibold" style="color:rgba(245,196,0,.7);">Award-Winning</p>
+            <h3 class="syne text-xl font-bold text-white mb-3 leading-snug">#1 Solar Installer in South Africa</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">Recognised as a top-performing solar installation company across Gauteng and beyond — consistently rated for on-site precision, safety compliance, and customer satisfaction that exceeds industry benchmarks.</p>
+            <div class="mt-6 flex items-center gap-1">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#F5C400" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#F5C400" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#F5C400" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#F5C400" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#F5C400" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <span class="text-xs text-gray-500 ml-2">5.0 · 300+ installations</span>
             </div>
         </div>
-    </header>
 
-    <!-- ABOUT SECTION -->
-    <section id="about" class="section">
-        <div class="about-grid">
+        <!-- Proof 2 -->
+        <div class="proof-card relative rounded-2xl p-8 border border-white/8 overflow-hidden" style="background:#1A252F;">
+            <div class="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" style="background:rgba(52,152,219,.06);"></div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(52,152,219,.12);border:1px solid rgba(52,152,219,.25);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3498DB" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <p class="syne text-xs tracking-widest uppercase mb-2 font-semibold" style="color:rgba(52,152,219,.8);">Certified Brands</p>
+            <h3 class="syne text-xl font-bold text-white mb-3 leading-snug">Top-Rated Solar Panels &amp; Inverters Only</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">We install exclusively from globally certified, tier-1 manufacturers — panels and inverters that carry full warranties, proven field performance, and certifications that protect your investment for 25+ years.</p>
+            <div class="mt-6 pt-5 border-t border-white/8 flex items-center gap-4">
+                <span class="text-xs text-gray-500">Sunsynk</span>
+                <span class="text-xs text-gray-600">·</span>
+                <span class="text-xs text-gray-500">JA Solar</span>
+                <span class="text-xs text-gray-600">·</span>
+                <span class="text-xs text-gray-500">Deye</span>
+                <span class="text-xs text-gray-600">·</span>
+                <span class="text-xs text-gray-500">Victron</span>
+            </div>
+        </div>
+
+        <!-- Proof 3 -->
+        <div class="proof-card relative rounded-2xl p-8 border border-white/8 overflow-hidden" style="background:#1A252F;">
+            <div class="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" style="background:rgba(39,174,96,.06);"></div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(39,174,96,.12);border:1px solid rgba(39,174,96,.25);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#27ae60" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <p class="syne text-xs tracking-widest uppercase mb-2 font-semibold" style="color:rgba(39,174,96,.8);">Great Value</p>
+            <h3 class="syne text-xl font-bold text-white mb-3 leading-snug">Premium Solar at Honest, Affordable Prices</h3>
+            <p class="text-sm text-gray-400 leading-relaxed">World-class energy independence shouldn't be a luxury. We offer transparent, fixed-price quotes with flexible financing options — no hidden fees, no markups. Just clean energy that pays for itself.</p>
+            <a href="#contact" class="syne mt-6 inline-flex items-center gap-1.5 text-xs font-semibold transition-colors" style="color:#27ae60;">
+                Get a free assessment
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ ABOUT ════════════════════ -->
+<section id="about" class="py-24 px-6 md:px-16" style="background:var(--cream);">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+            <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-5">Who We Are</p>
+            <h2 class="syne text-4xl md:text-5xl font-extrabold tracking-tighter leading-[1.05] mb-7" style="color:var(--dark);">Accelerating clean energy across two continents.</h2>
+            <p class="text-base text-gray-600 leading-relaxed mb-10">Sun Technologies is a professional solar service provider with a global footprint. We empower homes and businesses to take control of their energy costs while providing reliable backup power during grid instability.</p>
+            <div class="rounded-2xl p-7" style="background:var(--dark);border-left:4px solid var(--gold);">
+                <p class="syne text-xs tracking-widest uppercase text-gray-500 mb-3">Our Mission</p>
+                <p class="text-base text-white font-medium leading-relaxed">"To accelerate the transition to clean energy by providing reliable, affordable, and high-performance solar solutions tailored to every client's unique needs."</p>
+            </div>
+        </div>
+        <div class="relative">
+            <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1352&q=80" alt="Solar Panel Installation" class="w-full rounded-2xl object-cover" style="height:420px;">
+            <div class="absolute -bottom-5 -right-5 w-full h-full rounded-2xl -z-10" style="background:var(--gold);opacity:.15;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ SERVICES ════════════════════ -->
+<section id="services" class="py-24 px-6 md:px-16 bg-white">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-4">What We Offer</p>
+            <h2 class="syne text-4xl md:text-5xl font-extrabold tracking-tighter" style="color:var(--dark);">Our Core Services</h2>
+            <p class="text-gray-500 mt-3">Reducing energy costs through innovation and reliability.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div class="service-card relative rounded-2xl p-8 border border-gray-100 bg-white overflow-hidden">
+                <div class="shine"></div>
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.2);">
+                    <i data-lucide="home" style="width:22px;height:22px;stroke:var(--gold);stroke-width:1.8;"></i>
+                </div>
+                <h3 class="syne font-bold text-lg mb-3" style="color:var(--dark);">Residential Solar</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Custom home systems designed to beat load-shedding and reduce monthly bills.</p>
+            </div>
+
+            <div class="service-card relative rounded-2xl p-8 border border-gray-100 bg-white overflow-hidden">
+                <div class="shine"></div>
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.2);">
+                    <i data-lucide="building-2" style="width:22px;height:22px;stroke:var(--gold);stroke-width:1.8;"></i>
+                </div>
+                <h3 class="syne font-bold text-lg mb-3" style="color:var(--dark);">Commercial Solar</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Scalable energy plants for businesses and industrial applications.</p>
+            </div>
+
+            <div class="service-card relative rounded-2xl p-8 border border-gray-100 bg-white overflow-hidden">
+                <div class="shine"></div>
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.2);">
+                    <i data-lucide="zap" style="width:22px;height:22px;stroke:var(--gold);stroke-width:1.8;"></i>
+                </div>
+                <h3 class="syne font-bold text-lg mb-3" style="color:var(--dark);">Hybrid Systems</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Combining grid-connection with battery storage for 24/7 reliability.</p>
+            </div>
+
+            <div class="service-card relative rounded-2xl p-8 border border-gray-100 bg-white overflow-hidden">
+                <div class="shine"></div>
+                <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(245,196,0,.12);border:1px solid rgba(245,196,0,.2);">
+                    <i data-lucide="droplets" style="width:22px;height:22px;stroke:var(--gold);stroke-width:1.8;"></i>
+                </div>
+                <h3 class="syne font-bold text-lg mb-3" style="color:var(--dark);">Specialised Apps</h3>
+                <p class="text-sm text-gray-500 leading-relaxed">Solar water pumping, street lighting, and EV charging carports.</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ GALLERY ════════════════════ -->
+<section id="gallery" class="py-24 px-6 md:px-16" style="background:var(--cream);">
+    <div class="max-w-6xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-14">
             <div>
-                <h2>Who We Are</h2>
-                <p>Sun Technologies is a professional solar service provider with a global footprint. We empower homes and businesses to take control of their energy costs while providing reliable backup power during grid instability.</p>
-                <div class="mission-box" style="margin-top: 25px;">
-                    <h3>Our Mission</h3>
-                    <p>"To accelerate the transition to clean energy by providing reliable, affordable, and high-performance solar solutions tailored to every client's unique needs."</p>
+                <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-3">Our Work</p>
+                <h2 class="syne text-4xl md:text-5xl font-extrabold tracking-tighter" style="color:var(--dark);">Completed Projects</h2>
+            </div>
+            <p class="text-sm text-gray-500 sm:text-right max-w-xs">Real installations. Real results.</p>
+        </div>
+
+        <!-- DESKTOP: bespoke editorial grid -->
+        <div class="hidden lg:grid gap-4" style="grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 280px;">
+            <!-- Large hero tile: spans 1 col, 2 rows -->
+            <div class="gallery-item" style="grid-row:span 2;">
+                <img src="images/project.jpg" alt="Solar Project 1" onerror="this.src='https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=800&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Residential Installation</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/project1.png" alt="Solar Project 2" onerror="this.src='https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Rooftop Array</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="images/project2.png" alt="Solar Project 3" onerror="this.src='https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Battery Storage</span></div>
+            </div>
+            <!-- Wide tile spans 2 cols -->
+            <div class="gallery-item" style="grid-column:span 2;">
+                <img src="images/project3.png" alt="Solar Project 4" onerror="this.src='https://images.unsplash.com/photo-1548337138-e87d889cc369?w=900&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Commercial Plant</span></div>
+            </div>
+        </div>
+
+        <!-- TABLET: 2-column, remaining images shown -->
+        <div class="hidden sm:grid lg:hidden grid-cols-2 gap-4">
+            <div class="gallery-item aspect-[4/3]">
+                <img src="images/project.jpg" alt="Solar Project 1" onerror="this.src='https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=700&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Residential Installation</span></div>
+            </div>
+            <div class="gallery-item aspect-[4/3]">
+                <img src="images/project1.png" alt="Solar Project 2" onerror="this.src='https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Rooftop Array</span></div>
+            </div>
+            <div class="gallery-item aspect-[4/3]">
+                <img src="images/project2.png" alt="Solar Project 3" onerror="this.src='https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Battery Storage</span></div>
+            </div>
+            <div class="gallery-item aspect-[4/3]">
+                <img src="images/project3.png" alt="Solar Project 4" onerror="this.src='https://images.unsplash.com/photo-1548337138-e87d889cc369?w=700&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Commercial Plant</span></div>
+            </div>
+            <div class="gallery-item aspect-[4/3]">
+                <img src="images/project4.png" alt="Solar Project 5" onerror="this.src='https://images.unsplash.com/photo-1623227886882-8b33ae4cf8ec?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Industrial System</span></div>
+            </div>
+            <div class="gallery-item aspect-[4/3]">
+                <img src="images/project5.png" alt="Solar Project 6" onerror="this.src='https://images.unsplash.com/photo-1592833159155-c62df1b65634?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Solar Carport</span></div>
+            </div>
+        </div>
+
+        <!-- MOBILE: single column -->
+        <div class="flex flex-col gap-4 sm:hidden">
+            <div class="gallery-item aspect-video">
+                <img src="images/project.jpg" alt="Solar Project 1" onerror="this.src='https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?w=700&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Residential Installation</span></div>
+            </div>
+            <div class="gallery-item aspect-video">
+                <img src="images/project1.png" alt="Solar Project 2" onerror="this.src='https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Rooftop Array</span></div>
+            </div>
+            <div class="gallery-item aspect-video">
+                <img src="images/project2.png" alt="Solar Project 3" onerror="this.src='https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Battery Storage</span></div>
+            </div>
+            <div class="gallery-item aspect-video">
+                <img src="images/project3.png" alt="Solar Project 4" onerror="this.src='https://images.unsplash.com/photo-1548337138-e87d889cc369?w=700&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Commercial Plant</span></div>
+            </div>
+            <div class="gallery-item aspect-video">
+                <img src="images/project4.png" alt="Solar Project 5" onerror="this.src='https://images.unsplash.com/photo-1623227886882-8b33ae4cf8ec?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Industrial System</span></div>
+            </div>
+            <div class="gallery-item aspect-video">
+                <img src="images/project5.png" alt="Solar Project 6" onerror="this.src='https://images.unsplash.com/photo-1592833159155-c62df1b65634?w=600&q=80'">
+                <div class="gallery-caption"><span class="syne text-white text-sm font-semibold">Solar Carport</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════ CONTACT ════════════════════ -->
+<section id="contact" class="py-24 px-6 md:px-16 bg-white">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+        <div>
+            <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-5">Get in Touch</p>
+            <h2 class="syne text-4xl md:text-5xl font-extrabold tracking-tighter mb-5 leading-[1.05]" style="color:var(--dark);">Ready to switch to solar?</h2>
+            <p class="text-gray-500 mb-12">Contact our regional experts today for a professional assessment.</p>
+
+            <div class="space-y-5">
+                <div class="flex items-center gap-4 p-5 rounded-2xl border border-gray-100">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(245,196,0,.12);">
+                        <i data-lucide="mail" style="width:18px;height:18px;stroke:var(--gold);stroke-width:1.8;"></i>
+                    </div>
+                    <div>
+                        <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-0.5">Email</p>
+                        <a href="mailto:siphomaseela@hotmail.com" class="text-sm font-medium hover:underline" style="color:var(--dark);">siphomaseela@hotmail.com</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-5 rounded-2xl border border-gray-100">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(245,196,0,.12);">
+                        <i data-lucide="phone" style="width:18px;height:18px;stroke:var(--gold);stroke-width:1.8;"></i>
+                    </div>
+                    <div>
+                        <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-0.5">Phone</p>
+                        <a href="tel:0822142341" class="text-sm font-medium hover:underline" style="color:var(--dark);">082 214 2341</a>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-5 rounded-2xl border border-gray-100">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(245,196,0,.12);">
+                        <i data-lucide="map-pin" style="width:18px;height:18px;stroke:var(--gold);stroke-width:1.8;"></i>
+                    </div>
+                    <div>
+                        <p class="syne text-xs tracking-widest uppercase text-gray-400 mb-0.5">Coverage</p>
+                        <p class="text-sm font-medium" style="color:var(--dark);">Serving South Africa &amp; India</p>
+                    </div>
                 </div>
             </div>
-            <div>
-                <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1352&q=80" alt="Solar Panel Installation" style="width:100%; border-radius: 12px; box-shadow: 20px 20px 0 var(--light-bg);">
-            </div>
         </div>
-    </section>
 
-    <!-- SERVICES SECTION -->
-    <section id="services" class="section services-bg">
-        <div class="section-header">
-            <h2>Our Core Services</h2>
-            <p>Reducing energy costs through innovation and reliability.</p>
-        </div>
-        <div class="grid">
-            <div class="service-card">
-                <i data-lucide="home" class="icon-box"></i>
-                <h3>Residential Solar</h3>
-                <p>Custom home systems designed to beat load-shedding and reduce monthly bills.</p>
-            </div>
-            <div class="service-card">
-                <i data-lucide="building-2" class="icon-box"></i>
-                <h3>Commercial Solar</h3>
-                <p>Scalable energy plants for businesses and industrial applications.</p>
-            </div>
-            <div class="service-card">
-                <i data-lucide="zap" class="icon-box"></i>
-                <h3>Hybrid Systems</h3>
-                <p>Combining grid-connection with battery storage for 24/7 reliability.</p>
-            </div>
-            <div class="service-card">
-                <i data-lucide="droplets" class="icon-box"></i>
-                <h3>Specialized Apps</h3>
-                <p>Solar water pumping, street lighting, and EV charging carports.</p>
-            </div>
-        </div>
-    </section>
+        <form class="space-y-4 p-8 rounded-2xl border border-gray-100 bg-white shadow-sm">
+            <input type="text" placeholder="Your Name" required class="w-full h-12 px-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-yellow-400 transition-colors">
+            <input type="email" placeholder="Your Email" required class="w-full h-12 px-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-yellow-400 transition-colors">
+            <input type="tel" placeholder="Phone Number" required class="w-full h-12 px-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-yellow-400 transition-colors">
+            <textarea rows="5" placeholder="Tell us about your project requirements..." class="w-full p-4 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-yellow-400 transition-colors resize-none"></textarea>
+            <button type="submit" class="syne w-full h-12 rounded-xl font-semibold text-sm transition-all hover:brightness-110 hover:-translate-y-0.5" style="background:var(--dark);color:white;">
+                Request Professional Consultation
+            </button>
+        </form>
+    </div>
+</section>
 
-    <!-- GALLERY SECTION -->
-    <section id="gallery" class="section">
-        <h2 style="text-align:center; margin-bottom:40px;">Completed Projects</h2>
-        <div class="gallery-grid">
-            <div class="gallery-item"><img src="images/project.jpg" alt="Solar Project 1"></div>
-            <div class="gallery-item"><img src="images/project1.png" alt="Solar Project 2"></div>
-            <div class="gallery-item"><img src="images/project2.png" alt="Solar Project 3"></div>
-            <div class="gallery-item"><img src="images/project3.png" alt="Solar Project 4"></div>
-            <div class="gallery-item"><img src="images/project4.png" alt="Solar Project 5"></div>
-            <div class="gallery-item"><img src="images/project5.png" alt="Solar Project 6"></div>
-        </div>
-    </section>
-
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="section" style="background: var(--light-bg);">
-        <div class="contact-container">
-            <div class="contact-info">
-                <h2>Get In Touch</h2>
-                <p>Ready to switch to solar? Contact our regional experts today for a professional assessment.</p>
-                
-                <div class="info-item" style="margin-top: 30px;">
-                    <i data-lucide="mail"></i>
-                    <p>siphomaseela@hotmail.com</p>
-                </div>
-                <div class="info-item">
-                    <i data-lucide="phone"></i>
-                    <p>082 214 2341</p>
-                </div>
-                <div class="info-item">
-                    <i data-lucide="map-pin"></i>
-                    <p>Serving South Africa & India</p>
-                </div>
-            </div>
-            <form class="contact-form">
-                <input type="text" placeholder="Your Name" required>
-                <input type="email" placeholder="Your Email" required>
-                <input type="tel" placeholder="Phone Number" required>
-                <textarea rows="5" placeholder="Tell us about your project requirements..."></textarea>
-                <button type="submit">Request Professional Consultation</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-        <div class="footer-content">
-            <div>
-                <div class="logo">SUN <span>TECHNOLOGIES</span></div>
-                <p style="margin-top:15px; opacity:0.7;">Leading the way in renewable energy reliability.</p>
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="pt-16 pb-8 px-6 md:px-16" style="background:var(--dark);">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-white/8">
+            <div class="md:col-span-2">
+                <div class="syne text-white text-xl font-extrabold tracking-widest uppercase mb-4">SUN <span style="color:var(--gold)">TECHNOLOGIES</span></div>
+                <p class="text-sm text-gray-500 max-w-sm">Leading the way in renewable energy reliability across South Africa and India.</p>
             </div>
             <div>
-                <h4>Quick Links</h4>
-                <p style="margin-top:10px;"><a href="#about" style="color:white; text-decoration:none; opacity:0.7;">About Us</a></p>
-                <p><a href="#services" style="color:white; text-decoration:none; opacity:0.7;">Services</a></p>
-                <p><a href="#contact" style="color:white; text-decoration:none; opacity:0.7;">Contact</a></p>
+                <h5 class="syne text-xs font-semibold uppercase tracking-widest text-white mb-5">Quick Links</h5>
+                <ul class="space-y-3">
+                    <li><a href="#about"    class="text-sm text-gray-500 hover:text-white transition-colors">About Us</a></li>
+                    <li><a href="#services" class="text-sm text-gray-500 hover:text-white transition-colors">Services</a></li>
+                    <li><a href="#gallery"  class="text-sm text-gray-500 hover:text-white transition-colors">Projects</a></li>
+                    <li><a href="#contact"  class="text-sm text-gray-500 hover:text-white transition-colors">Contact</a></li>
+                </ul>
             </div>
             <div>
-                <h4>Contact Details</h4>
-                <p style="opacity:0.7;">siphomaseela@hotmail.com</p>
-                <p style="opacity:0.7;">082 214 2341</p>
+                <h5 class="syne text-xs font-semibold uppercase tracking-widest text-white mb-5">Contact</h5>
+                <ul class="space-y-3">
+                    <li><a href="mailto:siphomaseela@hotmail.com" class="text-sm text-gray-500 hover:text-white transition-colors">siphomaseela@hotmail.com</a></li>
+                    <li><a href="tel:0822142341" class="text-sm text-gray-500 hover:text-white transition-colors">082 214 2341</a></li>
+                    <li class="text-sm text-gray-600">South Africa &amp; India</li>
+                </ul>
             </div>
         </div>
-        <div class="footer-bottom">
-            Copyright © 2024 Sun Technologies Solar. All Rights Reserved.
+        <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-gray-600">Copyright © 2024 Sun Technologies Solar. All Rights Reserved.</p>
+            <div class="flex gap-5">
+                <a href="#" class="text-xs text-gray-600 hover:text-gray-300 transition-colors">Privacy Policy</a>
+                <a href="#" class="text-xs text-gray-600 hover:text-gray-300 transition-colors">Terms of Service</a>
+            </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <script>
-        // Initialize Icons
-        lucide.createIcons();
-    </script>
+<script>
+    lucide.createIcons();
+</script>
 </body>
 </html>
